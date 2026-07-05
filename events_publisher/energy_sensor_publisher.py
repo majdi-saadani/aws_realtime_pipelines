@@ -19,7 +19,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 
 from events_publisher.energy_sensor.energy_event import EnergyEvent
-from events_publisher.kinesis_client import publish_events
+from events_publisher.common.kinesis_client import publish_events
 
 # ---------------------------------------------------------------------------
 # Configuration
