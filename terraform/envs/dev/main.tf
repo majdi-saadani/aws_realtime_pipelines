@@ -12,6 +12,7 @@ module "energy_consumer" {
   source_file        = "${path.root}/../../../lambda_consumer/handler.py"
   kinesis_stream_arn = module.energy_stream.stream_arn
   dynamodb_table_arn = module.energy_measurements_table.table_arn
+  dynamodb_table_name = module.energy_measurements_table.table_name
 }
 
 module "energy_measurements_table" {
