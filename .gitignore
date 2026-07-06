@@ -19,3 +19,10 @@ __pycache__/
 # Secrets
 .env
 *.pem
+
+
+# internal files
+installer.md
+
+
+.build/
