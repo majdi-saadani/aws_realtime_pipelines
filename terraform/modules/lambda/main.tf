@@ -35,6 +35,15 @@ data "aws_iam_policy_document" "permissions" {
     ]
     resources = [var.kinesis_stream_arn]
   }
+
+  # Droit d'écrire dans NOTRE table, et elle seule
+  statement {
+    actions = [
+      "dynamodb:PutItem",
+      "dynamodb:BatchWriteItem",
+    ]
+    resources = [var.dynamodb_table_arn]
+  }
 }
 
 resource "aws_iam_role_policy" "this" {
