@@ -16,3 +16,8 @@ variable "dynamodb_table_arn" {
   description = "ARN de la table DynamoDB autorisée en écriture"
   type        = string
 }
+
+variable "dynamodb_table_name" {
+  description = "Nom de la table DynamoDB (injecté en env var)"
+  type        = string
+}

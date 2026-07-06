@@ -3,7 +3,16 @@
 import base64
 import json
 
+import pytest
+
+from lambda_consumer import handler
 from lambda_consumer.handler import lambda_handler
+
+
+@pytest.fixture(autouse=True)
+def stub_dynamodb(monkeypatch):
+    """Replace the DynamoDB write with a stub: no AWS call in unit tests."""
+    monkeypatch.setattr(handler, "write_to_dynamodb", lambda events: len(events))
 
 
 def make_kinesis_record(energy_event: dict) -> dict:
@@ -15,6 +24,7 @@ def make_event(event_id: str, power_kw: float) -> dict:
     return {
         "event_id": event_id,
         "sensor_id": "SENS-TEST-0001",
+        "timestamp": "2026-07-06T10:00:00.000Z",
         "measurements": {"power_kw": power_kw},
     }
 
@@ -39,11 +49,11 @@ def test_dedup_filter_and_reject():
         "duplicates": 1,
         "negatives": 1,
         "rejected": 1,
-        "valid": 2,
+        "written": 2,
     }
 
 
 def test_empty_batch():
     result = lambda_handler({"Records": []}, context=None)
-    assert result["valid"] == 0
+    assert result["written"] == 0
     assert result["rejected"] == 0

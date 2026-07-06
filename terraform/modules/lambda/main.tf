@@ -71,6 +71,12 @@ resource "aws_lambda_function" "this" {
 
   timeout     = 30
   memory_size = 128
+
+  environment {
+    variables = {
+      TABLE_NAME = var.dynamodb_table_name
+    }
+  }
 }
 
 resource "aws_lambda_event_source_mapping" "kinesis" {
